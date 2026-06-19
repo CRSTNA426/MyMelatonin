@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!--
+    PWA 图标：月亮 + 睡眠 Zzz 主题
+    暗色背景 + 白色线条，适配 manifest.json 的 theme_color #0a0f1a
+  -->
+  <!-- 背景圆 -->
+  <circle cx="256" cy="256" r="256" fill="#0a0f1a"/>
+
+  <!-- 光环 —— 呼应播放器呼吸光环 -->
+  <circle cx="256" cy="230" r="160" fill="none" stroke="rgba(124,92,191,0.15)" stroke-width="1.5"/>
+  <circle cx="256" cy="230" r="130" fill="none" stroke="rgba(124,92,191,0.10)" stroke-width="1"/>
+
+  <!-- 弯月 -->
+  <path d="M310 120
+           A 140 140 0 1 0 190 310
+           A 110 110 0 1 1 310 120 Z"
+        fill="rgba(220,215,245,0.90)"/>
+
+  <!-- 星星 1 —— 右上 -->
+  <circle cx="340" cy="150" r="2.5" fill="rgba(255,255,255,0.5)"/>
+  <!-- 星星 2 —— 左下 -->
+  <circle cx="170" cy="340" r="2" fill="rgba(255,255,255,0.35)"/>
+  <!-- 星星 3 —— 左上角 -->
+  <circle cx="140" cy="140" r="1.8" fill="rgba(255,255,255,0.3)"/>
+  <!-- 星星 4 —— 右下 -->
+  <circle cx="370" cy="330" r="2.2" fill="rgba(255,255,255,0.4)"/>
+
+  <!-- Zzz 文字 -->
+  <text x="330" y="360" font-family="serif" font-size="36" font-style="italic"
+        fill="rgba(200,210,255,0.55)" transform="rotate(-6, 340, 355)">Z</text>
+  <text x="360" y="395" font-family="serif" font-size="28" font-style="italic"
+        fill="rgba(200,210,255,0.38)" transform="rotate(-4, 368, 395)">z</text>
+  <text x="380" y="420" font-family="serif" font-size="20" font-style="italic"
+        fill="rgba(200,210,255,0.22)" transform="rotate(-3, 385, 420)">z</text>
+</svg>

@@ -1,0 +1,34 @@
+{
+  "asmr": [
+    {"zh": "夜间护肤 🌙",       "en": "Nighttime Skincare 🌙",       "p": "ASMR/norm_nighttime_skincare_asmr.mp3"},
+    {"zh": "详细护肤 🌃",       "en": "Ultra Detailed Skincare 🌃",   "p": "ASMR/norm_ultra_detailed_skincare_asmr.mp3"},
+    {"zh": "清洗头发 💧 1",     "en": "Hair Washing 💧 1",           "p": "ASMR/norm_hairwashing1_asmr.mp3"},
+    {"zh": "清洗头发 💧 2",     "en": "Hair Washing 💧 2",           "p": "ASMR/norm_hairwashing2_asmr.mp3"},
+    {"zh": "化妆 💄",           "en": "Makeup 💄",                   "p": "ASMR/norm_makeup_asmr.mp3"},
+    {"zh": "亲密化妆 😊",       "en": "Intimate Makeup 😊",          "p": "ASMR/norm_intimate_makeup_asmr.mp3"},
+    {"zh": "头部按摩 💆",       "en": "Deep Scalp Massage 💆",       "p": "ASMR/norm_deep_scalp_massage_asmr.mp3"},
+    {"zh": "耳部护理 👂",       "en": "Ear Clinic 👂",               "p": "ASMR/norm_ear_clinic_asmr.mp3"},
+    {"zh": "焦虑安抚 ❤",       "en": "Calm Down After Anxiety ❤",   "p": "ASMR/norm_calm_down_after_anxiety_asmr.mp3"}
+  ],
+  "nature": [
+    {"zh": "柔雨（一）",       "en": "Soft Rain 1",                  "p": "Natural_Noise/soft_rain1.mp3"},
+    {"zh": "柔雨（二）",       "en": "Soft Rain 2",                  "p": "Natural_Noise/soft_rain2.mp3"},
+    {"zh": "浅溪湍流",         "en": "River Rapids",                 "p": "Natural_Noise/river_with_small_rapids.mp3"},
+    {"zh": "幽山溪涧",         "en": "Mountain Stream",              "p": "Natural_Noise/soft_mountain_stream.mp3"},
+    {"zh": "林舍夏雨",         "en": "Forest Cabin Rain",            "p": "Natural_Noise/forest_cabin_summer_rain.mp3"},
+    {"zh": "海岸轻波",         "en": "Beach Soft Waves",             "p": "Natural_Noise/beach_soft_waves.mp3"},
+    {"zh": "深海慢拍",         "en": "Slow Ocean Waves",             "p": "Natural_Noise/slow_ocean_waves.mp3"},
+    {"zh": "近岸溪声",         "en": "Stream Close Up",              "p": "Natural_Noise/stream_river_up_close.mp3"},
+    {"zh": "雨霖铃",           "en": "Light Rain",                   "p": "Natural_Noise/light_rain.mp3"},
+    {"zh": "粉噪瀑布",         "en": "Pink Noise Waterfall",         "p": "Natural_Noise/pink_noise_waterfall.mp3"},
+    {"zh": "沉缓深流",         "en": "Thick Soft River",             "p": "Natural_Noise/thick_soft_river.mp3"},
+    {"zh": "檐下水帘",         "en": "Garage Running Water",         "p": "Natural_Noise/garage_running_water.mp3"},
+    {"zh": "屋顶轻雨",         "en": "Soft Rain on Roof",            "p": "Natural_Noise/soft_rain_on_roof.mp3"},
+    {"zh": "港湾微澜",         "en": "Harbor Waves",                 "p": "Natural_Noise/light_waves_at_harbor.mp3"},
+    {"zh": "慢浪虫吟",         "en": "Waves with Crickets",          "p": "Natural_Noise/slow_medium_waves_with_crickets.mp3"},
+    {"zh": "潮音",             "en": "Constant Splashing",           "p": "Natural_Noise/ocean_waves_constant_splashing.mp3"},
+    {"zh": "穿雨行车",         "en": "Bike/Car in Rain",             "p": "Natural_Noise/bike_and_car_passing_in_rain.mp3"},
+    {"zh": "轻雨",             "en": "Simple Light Rain",            "p": "Natural_Noise/light_rain2.mp3"},
+    {"zh": "舒心缓浪",         "en": "Soft Waves Relax",             "p": "Natural_Noise/soft_wave_for_relaxation.mp3"}
+  ]
+}

@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0f1a">
+
+    <!-- === PWA: Web App Manifest === -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- === PWA: iOS Safari 支持（独立模式、状态栏样式） === -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Melatonin">
+    <!-- iOS 主屏图标 —— 优先使用 SVG，iOS 17+ 支持 -->
+    <link rel="apple-touch-icon" href="icon.svg">
+    <!-- 旧版 iOS 的 180x180 PNG 后备（此处复用 SVG，Safari 会自动缩放渲染） -->
+
     <title>你的电子褪黑素 | Your Electrical Melatonin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300&display=swap" rel="stylesheet">
@@ -700,7 +712,342 @@
             .halo::after  { width: 168px; height: 168px; }
             .control-bar { min-height: 60px; padding: 8px 16px; }
         }
-    </style>
+        /* ============================================
+	           ADMIN: 管理后台样式
+	           ============================================ */
+	        /* ---- 入口按钮 ---- */
+	        .admin-entry-btn {
+	            opacity: 0.3; font-size: 11px;
+	            border: 1px solid transparent;
+	            transition: opacity var(--transition-fast);
+	        }
+	        .admin-entry-btn:hover { opacity: 0.8; }
+
+	        /* ---- 管理视图容器 ---- */
+	        .admin-view {
+	            justify-content: flex-start;
+	            padding-top: 70px;
+	            overflow-y: auto;
+	            -webkit-overflow-scrolling: touch;
+	        }
+	        .admin-container {
+	            width: 100%; max-width: 800px;
+	            padding: 0 20px 120px 20px;
+	        }
+
+	        .admin-title {
+	            font-size: 1.2rem; font-weight: 400;
+	            letter-spacing: 0.06em;
+	            text-align: center;
+	            margin-bottom: 20px;
+	            color: var(--text-primary);
+	        }
+
+	        /* ---- 标签页 ---- */
+	        .admin-tabs {
+	            display: flex; gap: 2px;
+	            background: var(--bg-surface);
+	            border: 1px solid var(--border-subtle);
+	            border-radius: 20px;
+	            padding: 3px;
+	            margin-bottom: 20px;
+	            justify-content: center;
+	        }
+	        .admin-tab {
+	            font-size: 13px; font-family: inherit;
+	            padding: 7px 20px;
+	            border: none; background: transparent;
+	            color: var(--text-dim); cursor: pointer;
+	            border-radius: 18px;
+	            transition: all var(--transition-fast);
+	            letter-spacing: 0.04em;
+	        }
+	        .admin-tab.active {
+	            background: var(--bg-hover);
+	            color: var(--accent-purple);
+	            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+	        }
+	        .admin-tab:hover:not(.active) { color: var(--text-primary); }
+
+	        /* ---- 表格 ---- */
+	        .admin-table-wrap {
+	            overflow-x: auto;
+	            margin-bottom: 24px;
+	            border-radius: var(--radius-sm);
+	            border: 1px solid var(--border-subtle);
+	        }
+	        .admin-table {
+	            width: 100%; border-collapse: collapse;
+	            font-size: 13px;
+	        }
+	        .admin-table th {
+	            text-align: left; padding: 10px 12px;
+	            font-weight: 400; font-size: 11px;
+	            color: var(--text-faint);
+	            letter-spacing: 0.04em;
+	            text-transform: uppercase;
+	            background: var(--bg-surface);
+	            border-bottom: 1px solid var(--border-subtle);
+	            white-space: nowrap;
+	        }
+	        .admin-table td {
+	            padding: 8px 12px;
+	            border-bottom: 1px solid var(--border-subtle);
+	            color: var(--text-dim);
+	            vertical-align: middle;
+	        }
+	        .admin-table tbody tr {
+	            transition: background var(--transition-fast);
+	        }
+	        .admin-table tbody tr:hover {
+	            background: var(--bg-hover);
+	        }
+	        .col-num  { width: 36px; text-align: center; }
+	        .col-zh   { min-width: 120px; }
+	        .col-en   { min-width: 140px; }
+	        .col-path { min-width: 160px; font-size: 12px; font-family: 'SF Mono', 'Consolas', monospace; }
+	        .col-actions { width: 90px; text-align: center; white-space: nowrap; }
+
+	        /* ---- 表格编辑模式 ---- */
+	        .admin-table input {
+	            width: 100%; padding: 4px 6px;
+	            font-size: 12px; font-family: inherit;
+	            background: var(--bg-deep);
+	            border: 1px solid var(--border-medium);
+	            border-radius: 4px;
+	            color: var(--text-primary);
+	            outline: none;
+	            transition: border-color var(--transition-fast);
+	        }
+	        .admin-table input:focus {
+	            border-color: var(--accent-purple);
+	        }
+
+	        /* ---- 操作按钮 ---- */
+	        .admin-btn {
+	            font-size: 12px; font-family: inherit;
+	            padding: 6px 14px; border-radius: 16px;
+	            cursor: pointer;
+	            border: 1px solid var(--border-subtle);
+	            background: none;
+	            color: var(--text-dim);
+	            transition: all var(--transition-fast);
+	            letter-spacing: 0.04em;
+	        }
+	        .admin-btn:hover {
+	            border-color: var(--border-medium);
+	            color: var(--text-primary);
+	            background: var(--bg-surface);
+	        }
+
+	        .admin-btn-small {
+	            font-size: 11px; padding: 3px 10px;
+	            background: none; border: 1px solid var(--border-subtle);
+	            border-radius: 12px; color: var(--text-dim);
+	            cursor: pointer; font-family: inherit;
+	            transition: all var(--transition-fast);
+	            margin: 0 2px;
+	        }
+	        .admin-btn-small:hover {
+	            border-color: var(--accent-purple);
+	            color: var(--accent-purple);
+	        }
+	        .admin-btn-small.danger:hover {
+	            border-color: var(--danger);
+	            color: var(--danger);
+	        }
+
+	        .admin-btn-back {
+	            display: block; margin: 24px auto 0;
+	            font-size: 13px; padding: 8px 24px;
+	        }
+
+	        /* ---- 添加表单 ---- */
+	        .admin-add-section {
+	            border-top: 1px solid var(--border-subtle);
+	            padding-top: 20px; margin-bottom: 20px;
+	        }
+	        .admin-section-title {
+	            font-size: 13px; font-weight: 400;
+	            letter-spacing: 0.06em;
+	            color: var(--text-dim);
+	            margin-bottom: 12px;
+	        }
+	        .admin-add-form {
+	            display: flex; gap: 8px; flex-wrap: wrap;
+	            align-items: center;
+	        }
+	        .admin-input {
+	            flex: 1; min-width: 120px;
+	            padding: 8px 12px;
+	            font-size: 13px; font-family: inherit;
+	            background: var(--bg-deep);
+	            border: 1px solid var(--border-medium);
+	            border-radius: var(--radius-sm);
+	            color: var(--text-primary);
+	            outline: none;
+	            transition: border-color var(--transition-fast);
+	        }
+	        .admin-input:focus { border-color: var(--accent-purple); }
+	        .admin-input-path { flex: 1.5; }
+
+	        .admin-btn-add {
+	            border-color: var(--accent-purple);
+	            color: var(--accent-purple);
+	            white-space: nowrap;
+	        }
+	        .admin-btn-add:hover {
+	            background: rgba(124,92,191,0.1);
+	            border-color: var(--accent-purple);
+	            color: var(--accent-purple);
+	        }
+
+	        /* ---- 导出 ---- */
+	        .admin-export-section {
+	            border-top: 1px solid var(--border-subtle);
+	            padding-top: 20px; margin-bottom: 20px;
+	        }
+	        .admin-btn-export {
+	            display: block; width: 100%;
+	            padding: 10px; font-size: 13px;
+	            border-color: var(--accent-blue);
+	            color: var(--accent-blue);
+	            text-align: center;
+	        }
+	        .admin-btn-export:hover {
+	            background: rgba(91,141,239,0.1);
+	            border-color: var(--accent-blue);
+	            color: var(--accent-blue);
+	        }
+	        .admin-export-output {
+	            width: 100%; margin-top: 12px;
+	            padding: 14px;
+	            font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+	            font-size: 12px; line-height: 1.5;
+	            background: var(--bg-deep);
+	            border: 1px solid var(--border-medium);
+	            border-radius: var(--radius-sm);
+	            color: var(--text-primary);
+	            resize: vertical;
+	            outline: none;
+	            white-space: pre;
+	            tab-size: 2;
+	        }
+	        .admin-export-hint {
+	            display: block; text-align: center;
+	            font-size: 11px; color: var(--accent-blue);
+	            margin-top: 6px;
+	        }
+
+	        /* ---- 密码浮层 ---- */
+	        .admin-login-overlay {
+	            position: fixed; inset: 0; z-index: 4000;
+	            background: rgba(0,0,0,0.75);
+	            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+	            display: flex; justify-content: center; align-items: center;
+	            opacity: 0; pointer-events: none;
+	            transition: opacity 0.3s ease;
+	        }
+	        .admin-login-overlay.show { opacity: 1; pointer-events: auto; }
+
+	        .admin-login-card {
+	            background: rgba(20, 25, 40, 0.96);
+	            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+	            border: 1px solid var(--border-medium);
+	            border-radius: var(--radius-md);
+	            padding: 32px;
+	            width: 90%; max-width: 360px;
+	            text-align: center;
+	        }
+	        .admin-login-title {
+	            font-size: 1.1rem; font-weight: 400;
+	            letter-spacing: 0.06em;
+	            margin-bottom: 8px;
+	            color: var(--text-primary);
+	        }
+	        .admin-login-desc {
+	            font-size: 12px; color: var(--text-faint);
+	            margin-bottom: 20px;
+	        }
+	        .admin-login-input {
+	            width: 100%; padding: 10px 14px;
+	            font-size: 15px; font-family: inherit;
+	            background: var(--bg-deep);
+	            border: 1px solid var(--border-medium);
+	            border-radius: var(--radius-sm);
+	            color: var(--text-primary);
+	            outline: none; text-align: center;
+	            letter-spacing: 0.1em;
+	            transition: border-color var(--transition-fast);
+	        }
+	        .admin-login-input:focus { border-color: var(--accent-purple); }
+
+	        .admin-login-actions {
+	            display: flex; gap: 10px;
+	            margin-top: 20px; justify-content: center;
+	        }
+	        .admin-btn-cancel {
+	            border-color: var(--border-medium);
+	            color: var(--text-dim);
+	        }
+	        .admin-btn-confirm {
+	            border-color: var(--accent-purple);
+	            color: var(--accent-purple);
+	        }
+	        .admin-btn-confirm:hover {
+	            background: rgba(124,92,191,0.1);
+	        }
+
+	        .admin-login-error {
+	            font-size: 12px; color: var(--danger);
+	            margin-top: 12px; min-height: 18px;
+	        }
+
+	        /* ---- 删除确认遮罩 ---- */
+	        .admin-delete-confirm {
+	            position: fixed; inset: 0; z-index: 4500;
+	            background: rgba(0,0,0,0.6);
+	            display: flex; justify-content: center; align-items: center;
+	            opacity: 0; pointer-events: none;
+	            transition: opacity 0.2s ease;
+	        }
+	        .admin-delete-confirm.show { opacity: 1; pointer-events: auto; }
+	        .admin-delete-card {
+	            background: rgba(20, 25, 40, 0.96);
+	            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+	            border: 1px solid var(--danger);
+	            border-radius: var(--radius-md);
+	            padding: 24px; text-align: center;
+	            width: 90%; max-width: 320px;
+	        }
+	        .admin-delete-text {
+	            font-size: 14px; color: var(--text-primary);
+	            margin-bottom: 16px;
+	        }
+	        .admin-delete-actions {
+	            display: flex; gap: 10px; justify-content: center;
+	        }
+	        .admin-btn-danger {
+	            border-color: var(--danger);
+	            color: var(--danger);
+	        }
+	        .admin-btn-danger:hover {
+	            background: rgba(224,85,106,0.1);
+	        }
+
+	        /* ---- 响应式 —— 手机 ---- */
+	        @media (max-width: 640px) {
+	            .admin-container { padding: 0 12px 140px 12px; }
+	            .admin-title { font-size: 1rem; }
+	            .admin-table { font-size: 11px; }
+	            .admin-table th, .admin-table td { padding: 6px 8px; }
+	            .admin-add-form { flex-direction: column; }
+	            .admin-input { min-width: 100%; }
+	            .admin-tab { font-size: 12px; padding: 6px 14px; }
+	            .col-en { display: none; }
+	            .admin-login-card { padding: 24px; }
+	        }
+	    </style>
 </head>
 <body>
 
@@ -716,6 +1063,8 @@
         <button class="nav-btn back-btn" id="back-btn" onclick="App.back()">← 返回</button>
         <div></div>
         <button class="nav-btn lang-btn" id="lang-btn" onclick="App.toggleLang()">English</button>
+        <!-- ADMIN: 站长管理入口 —— 低调锁图标，hover 才明显 -->
+        <button class="nav-btn admin-entry-btn" id="admin-entry-btn" onclick="App.showAdminLogin()" title="管理后台">🔒</button>
     </nav>
 
     <!-- Toast 提示 -->
@@ -769,6 +1118,88 @@
             </div>
         </div>
     </section>
+
+    <!-- ===== ADMIN: 管理后台 ===== -->
+    <section class="view admin-view" id="view-admin">
+        <div class="admin-container">
+            <h2 class="admin-title" id="admin-title">音频管理后台</h2>
+
+            <!-- 标签页切换 -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="asmr" onclick="App.adminSwitchTab('asmr')">
+                    🌙 ASMR
+                </button>
+                <button class="admin-tab" data-tab="nature" onclick="App.adminSwitchTab('nature')">
+                    🌊 <span id="admin-tab-nature">自然噪音</span>
+                </button>
+            </div>
+
+            <!-- 音频列表表格 -->
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th class="col-num">#</th>
+                            <th class="col-zh" id="admin-th-zh">中文标题</th>
+                            <th class="col-en" id="admin-th-en">英文标题</th>
+                            <th class="col-path" id="admin-th-path">文件路径</th>
+                            <th class="col-actions" id="admin-th-actions">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- 添加音频表单 -->
+            <div class="admin-add-section" id="admin-add-section">
+                <h3 class="admin-section-title" id="admin-add-title">添加音频</h3>
+                <div class="admin-add-form">
+                    <input type="text" class="admin-input" id="admin-add-zh" placeholder="中文标题">
+                    <input type="text" class="admin-input" id="admin-add-en" placeholder="英文标题">
+                    <input type="text" class="admin-input admin-input-path" id="admin-add-path" placeholder="文件路径 (如 ASMR/xxx.mp3)">
+                    <button class="admin-btn admin-btn-add" onclick="App.adminAddTrack()">
+                        <span id="admin-add-btn-text">+ 添加</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 导出区域 -->
+            <div class="admin-export-section">
+                <button class="admin-btn admin-btn-export" onclick="App.adminExportJSON()">
+                    📋 <span id="admin-export-btn">生成 tracks.json</span>
+                </button>
+                <textarea class="admin-export-output" id="admin-export-output"
+                          readonly rows="16" spellcheck="false"
+                          style="display:none;"
+                          onclick="this.select()"
+                          placeholder="点击上方按钮生成…"></textarea>
+                <span class="admin-export-hint" id="admin-export-hint" style="display:none;">
+                    ✅ 文本已全选，Cmd/Ctrl+C 复制后替换项目中的 tracks.json
+                </span>
+            </div>
+
+            <!-- 底部返回 -->
+            <button class="admin-btn admin-btn-back" onclick="App.backFromAdmin()">
+                ← <span id="admin-back-text">返回首页</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== ADMIN: 密码验证浮层 ===== -->
+    <div class="admin-login-overlay" id="admin-login-overlay" onclick="App.adminLoginOverlayClick(event)">
+        <div class="admin-login-card" onclick="event.stopPropagation()">
+            <h3 class="admin-login-title">🔒 站长验证</h3>
+            <p class="admin-login-desc">请输入管理密码以继续</p>
+            <input type="password" class="admin-login-input" id="admin-login-input"
+                   placeholder="密码" onkeydown="App.adminLoginKeydown(event)">
+            <div class="admin-login-actions">
+                <button class="admin-btn admin-btn-cancel" onclick="App.hideAdminLogin()">取消</button>
+                <!-- ADMIN: 站长密码修改处 —— 修改这里即可更换密码 -->
+                <button class="admin-btn admin-btn-confirm" onclick="App.adminVerifyLogin()">验证</button>
+            </div>
+            <p class="admin-login-error" id="admin-login-error"></p>
+        </div>
+    </div>
 
     <!-- ===== 控制栏 ===== -->
     <div class="control-bar" id="control-bar">
@@ -866,6 +1297,12 @@
         let lastRandomIndex = -1;
         let currentView = 'home';
 
+        /* ADMIN: 管理后台状态 */
+        const ADMIN_PASSWORD = 'melatonin2024'; // ★ 站长密码修改处 —— 改这里即可
+        let adminActiveTab = 'asmr';            // 当前管理标签页
+        let adminEditingRow = null;             // 正在编辑的行索引（null = 无）
+        let adminDeleteTarget = null;           // 待删除的行索引
+
         const player = new Audio();
         // 恢复音量
         player.volume = store.get('volume', 0.5);
@@ -918,40 +1355,43 @@
             }
         };
 
-        const db = {
+        /* === PWA: 音频数据 —— 优先从 tracks.json 加载，失败则用内置兜底 ===
+           兜底数据每类只保留 3 首，确保 JSON 丢失或完全离线时
+           PWA 仍可播放最基本的音频（配合 SW 音频缓存）
+           === */
+        let db = { asmr: [], nature: [] };
+
+        const FALLBACK_DB = {
             asmr: [
                 { en: "Nighttime Skincare 🌙",       zh: "夜间护肤 🌙",       p: "ASMR/norm_nighttime_skincare_asmr.mp3" },
-                { en: "Ultra Detailed Skincare 🌃",   zh: "详细护肤 🌃",       p: "ASMR/norm_ultra_detailed_skincare_asmr.mp3" },
-                { en: "Hair Washing 💧 1",            zh: "清洗头发 💧 1",     p: "ASMR/norm_hairwashing1_asmr.mp3" },
-                { en: "Hair Washing 💧 2",            zh: "清洗头发 💧 2",     p: "ASMR/norm_hairwashing2_asmr.mp3" },
-                { en: "Makeup 💄",                    zh: "化妆 💄",          p: "ASMR/norm_makeup_asmr.mp3" },
-                { en: "Intimate Makeup 😊",           zh: "亲密化妆 😊",       p: "ASMR/norm_intimate_makeup_asmr.mp3" },
                 { en: "Deep Scalp Massage 💆",        zh: "头部按摩 💆",       p: "ASMR/norm_deep_scalp_massage_asmr.mp3" },
-                { en: "Ear Clinic 👂",                zh: "耳部护理 👂",       p: "ASMR/norm_ear_clinic_asmr.mp3" },
                 { en: "Calm Down After Anxiety ❤",   zh: "焦虑安抚 ❤",       p: "ASMR/norm_calm_down_after_anxiety_asmr.mp3" }
             ],
             nature: [
-                { en: "Soft Rain 1",                  zh: "柔雨（一）",        p: "Natural_Noise/soft_rain1.mp3" },
-                { en: "Soft Rain 2",                  zh: "柔雨（二）",        p: "Natural_Noise/soft_rain2.mp3" },
-                { en: "River Rapids",                 zh: "浅溪湍流",          p: "Natural_Noise/river_with_small_rapids.mp3" },
-                { en: "Mountain Stream",              zh: "幽山溪涧",          p: "Natural_Noise/soft_mountain_stream.mp3" },
-                { en: "Forest Cabin Rain",            zh: "林舍夏雨",          p: "Natural_Noise/forest_cabin_summer_rain.mp3" },
-                { en: "Beach Soft Waves",             zh: "海岸轻波",          p: "Natural_Noise/beach_soft_waves.mp3" },
-                { en: "Slow Ocean Waves",             zh: "深海慢拍",          p: "Natural_Noise/slow_ocean_waves.mp3" },
-                { en: "Stream Close Up",              zh: "近岸溪声",          p: "Natural_Noise/stream_river_up_close.mp3" },
-                { en: "Light Rain",                   zh: "雨霖铃",            p: "Natural_Noise/light_rain.mp3" },
-                { en: "Pink Noise Waterfall",         zh: "粉噪瀑布",          p: "Natural_Noise/pink_noise_waterfall.mp3" },
-                { en: "Thick Soft River",             zh: "沉缓深流",          p: "Natural_Noise/thick_soft_river.mp3" },
-                { en: "Garage Running Water",         zh: "檐下水帘",          p: "Natural_Noise/garage_running_water.mp3" },
-                { en: "Soft Rain on Roof",            zh: "屋顶轻雨",          p: "Natural_Noise/soft_rain_on_roof.mp3" },
-                { en: "Harbor Waves",                 zh: "港湾微澜",          p: "Natural_Noise/light_waves_at_harbor.mp3" },
-                { en: "Waves with Crickets",          zh: "慢浪虫吟",          p: "Natural_Noise/slow_medium_waves_with_crickets.mp3" },
-                { en: "Constant Splashing",           zh: "潮音",              p: "Natural_Noise/ocean_waves_constant_splashing.mp3" },
-                { en: "Bike/Car in Rain",             zh: "穿雨行车",          p: "Natural_Noise/bike_and_car_passing_in_rain.mp3" },
-                { en: "Simple Light Rain",            zh: "轻雨",              p: "Natural_Noise/light_rain2.mp3" },
-                { en: "Soft Waves Relax",             zh: "舒心缓浪",          p: "Natural_Noise/soft_wave_for_relaxation.mp3" }
+                { en: "Soft Rain 1",      zh: "柔雨（一）",   p: "Natural_Noise/soft_rain1.mp3" },
+                { en: "River Rapids",     zh: "浅溪湍流",     p: "Natural_Noise/river_with_small_rapids.mp3" },
+                { en: "Beach Soft Waves", zh: "海岸轻波",     p: "Natural_Noise/beach_soft_waves.mp3" }
             ]
         };
+
+        /* === PWA: 异步加载 tracks.json === */
+        async function loadTracks() {
+            try {
+                const resp = await fetch('./tracks.json');
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                if (data.asmr && data.asmr.length && data.nature && data.nature.length) {
+                    db = data;
+                    console.log('[PWA] ✅ tracks.json 加载成功 (ASMR: ' + data.asmr.length + ' 首, Nature: ' + data.nature.length + ' 首)');
+                    return;
+                }
+                throw new Error('JSON 格式无效——缺少 asmr 或 nature 数组');
+            } catch (err) {
+                console.warn('[PWA] ⚠ tracks.json 加载失败: ' + err.message + '，降级为兜底数据');
+                db = FALLBACK_DB;
+                console.log('[PWA] 📦 使用内置兜底数据 (ASMR: ' + FALLBACK_DB.asmr.length + ' 首, Nature: ' + FALLBACK_DB.nature.length + ' 首)');
+            }
+        }
 
         function t(key) { return ui[curLang][key] || key; }
         function trackName(track) { return curLang === 'zh' ? track.zh : track.en; }
@@ -959,6 +1399,16 @@
         // ---- DOM 引用 ----
         const $ = (s) => document.querySelector(s);
         const $$ = (s) => document.querySelectorAll(s);
+
+        /* ADMIN: HTML 转义 —— 防止 XSS & 渲染破损 */
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+        function escapeAttr(str) {
+            return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
 
         const domHome    = $('#view-home');
         const domList    = $('#view-list');
@@ -982,22 +1432,40 @@
         const domTimerDone = $('#timer-done-overlay');
         const domTimerDoneText = $('#timer-done-text');
 
+        /* ADMIN: 管理后台 DOM 引用 */
+        const domAdminView    = $('#view-admin');
+        const domAdminTbody   = $('#admin-tbody');
+        const domAdminLoginOverlay = $('#admin-login-overlay');
+        const domAdminLoginInput  = $('#admin-login-input');
+        const domAdminLoginError  = $('#admin-login-error');
+        const domAdminExportOut   = $('#admin-export-output');
+        const domAdminExportHint  = $('#admin-export-hint');
+        const domAdminEntryBtn    = $('#admin-entry-btn');
+
         // ---- 视图切换（无 location.reload） ----
         function showView(name) {
             currentView = name;
-            [domHome, domList, domPlayer].forEach(v => v.classList.remove('active'));
+            [domHome, domList, domPlayer, domAdminView].forEach(v => v.classList.remove('active'));
             if (name === 'home') {
                 domHome.classList.add('active');
                 domBack.style.display = 'none';
                 domBar.classList.remove('visible');
+                domAdminEntryBtn.style.display = ''; // ADMIN: 首页显示入口
             } else if (name === 'list') {
                 domList.classList.add('active');
                 domBack.style.display = 'block';
                 if (!curTrack || player.paused) domBar.classList.remove('visible');
+                domAdminEntryBtn.style.display = 'none'; // ADMIN: 列表页隐藏入口
             } else if (name === 'player') {
                 domPlayer.classList.add('active');
                 domBack.style.display = 'block';
                 domBar.classList.add('visible');
+                domAdminEntryBtn.style.display = 'none'; // ADMIN: 播放器隐藏入口
+            } else if (name === 'admin') {
+                domAdminView.classList.add('active');
+                domBack.style.display = 'none';
+                domBar.classList.remove('visible');
+                domAdminEntryBtn.style.display = 'none'; // ADMIN: 管理页隐藏入口
             }
         }
 
@@ -1610,8 +2078,12 @@
             });
         }
 
-        // ---- 初始化 ----
-        function init() {
+        /* === PWA: 初始化 —— 先加载数据，再启动 UI === */
+        async function init() {
+            // 第一步：加载音频数据（优先 tracks.json，失败则兜底）
+            // 确保后续 renderList() 不会拿到空数据
+            await loadTracks();
+
             initParticles();
 
             // 恢复保存的音量
@@ -1662,6 +2134,238 @@
             $('#list-subtitle').innerText = t('listSubtitle');
         }
 
+        /* ============================================================
+           ADMIN: 管理后台方法
+           ============================================================ */
+
+        /* ADMIN: 显示密码登录浮层 */
+        function showAdminLogin() {
+            domAdminLoginOverlay.classList.add('show');
+            domAdminLoginInput.value = '';
+            domAdminLoginError.innerText = '';
+            setTimeout(() => domAdminLoginInput.focus(), 100);
+        }
+
+        /* ADMIN: 隐藏密码登录浮层 */
+        function hideAdminLogin() {
+            domAdminLoginOverlay.classList.remove('show');
+        }
+
+        /* ADMIN: 密码输入框回车处理 */
+        function adminLoginKeydown(event) {
+            if (event.key === 'Enter') adminVerifyLogin();
+            if (event.key === 'Escape') hideAdminLogin();
+        }
+
+        /* ADMIN: 点击浮层背景关闭 */
+        function adminLoginOverlayClick(event) {
+            if (event.target === domAdminLoginOverlay) hideAdminLogin();
+        }
+
+        /* ADMIN: 验证密码 —— 前端明文比对，验证状态存 sessionStorage */
+        function adminVerifyLogin() {
+            const input = domAdminLoginInput.value.trim();
+            if (input === ADMIN_PASSWORD) {
+                sessionStorage.setItem('melatonin_admin_auth', '1');
+                domAdminLoginOverlay.classList.remove('show');
+                domAdminLoginInput.value = '';
+                domAdminLoginError.innerText = '';
+                adminActiveTab = 'asmr';
+                showView('admin');
+                adminRenderTable();
+            } else {
+                domAdminLoginError.innerText = '密码错误，请重试';
+                domAdminLoginInput.select();
+            }
+        }
+
+        /* ADMIN: 检查是否已通过验证（sessionStorage） */
+        function adminIsAuthed() {
+            try { return sessionStorage.getItem('melatonin_admin_auth') === '1'; }
+            catch { return false; }
+        }
+
+        /* ADMIN: 切换标签页 */
+        function adminSwitchTab(tab) {
+            adminActiveTab = tab;
+            adminEditingRow = null;
+            adminDeleteTarget = null;
+            // 更新 tab 高亮
+            document.querySelectorAll('.admin-tab').forEach(el => {
+                el.classList.toggle('active', el.dataset.tab === tab);
+            });
+            adminRenderTable();
+        }
+
+        /* ADMIN: 渲染当前标签页的音频表格 */
+        function adminRenderTable() {
+            const list = db[adminActiveTab] || [];
+            domAdminTbody.innerHTML = '';
+
+            list.forEach((track, idx) => {
+                const tr = document.createElement('tr');
+
+                if (adminEditingRow === idx) {
+                    /* ---- 编辑模式 ---- */
+                    tr.innerHTML = `
+                        <td class="col-num">${idx + 1}</td>
+                        <td class="col-zh"><input type="text" id="admin-edit-zh" value="${escapeAttr(track.zh)}"></td>
+                        <td class="col-en"><input type="text" id="admin-edit-en" value="${escapeAttr(track.en)}"></td>
+                        <td class="col-path"><input type="text" id="admin-edit-p" value="${escapeAttr(track.p)}"></td>
+                        <td class="col-actions">
+                            <button class="admin-btn-small" onclick="App.adminSaveRow(${idx})">✅</button>
+                            <button class="admin-btn-small danger" onclick="App.adminCancelEdit()">✕</button>
+                        </td>`;
+                } else {
+                    /* ---- 展示模式 ---- */
+                    tr.innerHTML = `
+                        <td class="col-num">${idx + 1}</td>
+                        <td class="col-zh">${escapeHTML(track.zh)}</td>
+                        <td class="col-en">${escapeHTML(track.en)}</td>
+                        <td class="col-path">${escapeHTML(track.p)}</td>
+                        <td class="col-actions">
+                            <button class="admin-btn-small" onclick="App.adminEditRow(${idx})">✏️</button>
+                            <button class="admin-btn-small danger" onclick="App.adminDeleteRow(${idx})">🗑️</button>
+                        </td>`;
+                }
+                domAdminTbody.appendChild(tr);
+            });
+
+            if (list.length === 0) {
+                domAdminTbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-faint);">
+                    ${curLang === 'zh' ? '暂无音频，请添加' : 'No tracks yet. Add one below.'}
+                </td></tr>`;
+            }
+        }
+
+        /* ADMIN: 进入行编辑 */
+        function adminEditRow(idx) {
+            adminEditingRow = idx;
+            adminRenderTable();
+            // 聚焦第一个输入框
+            setTimeout(() => {
+                const inp = document.getElementById('admin-edit-zh');
+                if (inp) { inp.focus(); inp.select(); }
+            }, 50);
+        }
+
+        /* ADMIN: 保存行编辑 */
+        function adminSaveRow(idx) {
+            const zhEl = document.getElementById('admin-edit-zh');
+            const enEl = document.getElementById('admin-edit-en');
+            const pEl  = document.getElementById('admin-edit-p');
+            if (!zhEl || !enEl || !pEl) return;
+
+            const zhVal = zhEl.value.trim();
+            const enVal = enEl.value.trim();
+            const pVal  = pEl.value.trim();
+
+            if (!zhVal || !enVal || !pVal) {
+                alert(curLang === 'zh' ? '三个字段都不能为空' : 'All three fields are required.');
+                return;
+            }
+
+            db[adminActiveTab][idx] = { zh: zhVal, en: enVal, p: pVal };
+            adminEditingRow = null;
+            adminRenderTable();
+            console.log('[ADMIN] ✏️ 已更新:', zhVal);
+        }
+
+        /* ADMIN: 取消行编辑 */
+        function adminCancelEdit() {
+            adminEditingRow = null;
+            adminRenderTable();
+        }
+
+        /* ADMIN: 删除确认 */
+        function adminDeleteRow(idx) {
+            adminDeleteTarget = idx;
+            const track = db[adminActiveTab][idx];
+            // 创建确认浮层
+            const overlay = document.createElement('div');
+            overlay.className = 'admin-delete-confirm show';
+            overlay.id = 'admin-delete-overlay';
+            overlay.innerHTML = `
+                <div class="admin-delete-card" onclick="event.stopPropagation()">
+                    <p class="admin-delete-text">${curLang === 'zh' ? '确认删除？' : 'Confirm delete?'}<br>
+                    <span style="font-size:12px;color:var(--text-dim);">${escapeHTML(track.zh)} — ${escapeHTML(track.p)}</span></p>
+                    <div class="admin-delete-actions">
+                        <button class="admin-btn admin-btn-cancel" onclick="App.adminCancelDelete()">${curLang === 'zh' ? '取消' : 'Cancel'}</button>
+                        <button class="admin-btn admin-btn-danger" onclick="App.adminConfirmDelete()">${curLang === 'zh' ? '确认删除' : 'Delete'}</button>
+                    </div>
+                </div>`;
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) adminCancelDelete();
+            });
+            document.body.appendChild(overlay);
+        }
+
+        /* ADMIN: 确认删除 */
+        function adminConfirmDelete() {
+            if (adminDeleteTarget === null) return;
+            const removed = db[adminActiveTab].splice(adminDeleteTarget, 1);
+            console.log('[ADMIN] 🗑 已删除:', removed[0]?.zh);
+            adminDeleteTarget = null;
+            adminCancelDelete(); // 移除确认浮层
+            adminRenderTable();
+        }
+
+        /* ADMIN: 取消删除 */
+        function adminCancelDelete() {
+            adminDeleteTarget = null;
+            const overlay = document.getElementById('admin-delete-overlay');
+            if (overlay) overlay.remove();
+        }
+
+        /* ADMIN: 添加新音频 */
+        function adminAddTrack() {
+            const zhEl  = document.getElementById('admin-add-zh');
+            const enEl  = document.getElementById('admin-add-en');
+            const pathEl = document.getElementById('admin-add-path');
+            if (!zhEl || !enEl || !pathEl) return;
+
+            const zhVal = zhEl.value.trim();
+            const enVal = enEl.value.trim();
+            const pathVal = pathEl.value.trim();
+
+            if (!zhVal || !enVal || !pathVal) {
+                alert(curLang === 'zh' ? '请填写中文标题、英文标题和文件路径' : 'Please fill in all three fields.');
+                return;
+            }
+
+            db[adminActiveTab].push({ zh: zhVal, en: enVal, p: pathVal });
+            console.log('[ADMIN] ➕ 已添加:', zhVal, '→', pathVal);
+
+            // 清空表单
+            zhEl.value = '';
+            enEl.value = '';
+            pathEl.value = '';
+            zhEl.focus();
+
+            adminRenderTable();
+        }
+
+        /* ADMIN: 导出 tracks.json —— 格式化 JSON 到 textarea 并全选 */
+        function adminExportJSON() {
+            const json = JSON.stringify(db, null, 2);
+            domAdminExportOut.value = json;
+            domAdminExportOut.style.display = 'block';
+            domAdminExportHint.style.display = 'block';
+            domAdminExportOut.select();
+            domAdminExportOut.scrollTop = 0;
+            console.log('[ADMIN] 📋 JSON 已生成，长度:', json.length, '字符');
+        }
+
+        /* ADMIN: 从管理后台返回首页 */
+        function backFromAdmin() {
+            adminEditingRow = null;
+            adminDeleteTarget = null;
+            // 隐藏导出区域
+            domAdminExportOut.style.display = 'none';
+            domAdminExportHint.style.display = 'none';
+            showView('home');
+        }
+
         // ---- 公开 API ----
         return {
             enter,
@@ -1679,7 +2383,23 @@
             seekHover,
             seekHoverEnd,
             seekEnd,
-            init
+            init,
+            /* ADMIN: 公开管理后台方法 */
+            showAdminLogin,
+            hideAdminLogin,
+            adminLoginKeydown,
+            adminLoginOverlayClick,
+            adminVerifyLogin,
+            adminSwitchTab,
+            adminEditRow,
+            adminSaveRow,
+            adminCancelEdit,
+            adminDeleteRow,
+            adminConfirmDelete,
+            adminCancelDelete,
+            adminAddTrack,
+            adminExportJSON,
+            backFromAdmin
         };
     })();
 
@@ -1688,6 +2408,67 @@
 
     // ---- 处理 Standalone 模式下的滑动返回手势 ----
     document.addEventListener('gestureend', () => {});
+    </script>
+
+    <!-- ============================================================
+         PWA: Service Worker 注册
+         - 仅在 HTTPS 或 localhost 下注册（浏览器安全限制）
+         - 注册成功后，SW 会拦截网络请求并执行缓存策略
+         - 详见 sw.js 中的注释说明各策略
+         ============================================================ -->
+    <script>
+    /* === PWA: 注册 Service Worker === */
+    (function registerSW() {
+        // 安全检查：Service Worker 需要 HTTPS 或 localhost
+        if (!('serviceWorker' in navigator)) {
+            console.log('[PWA] Service Worker 不受此浏览器支持');
+            return;
+        }
+
+        // 页面加载完成后注册，避免与首屏渲染抢占带宽
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                .then((registration) => {
+                    console.log('[PWA] ✅ SW 注册成功，scope:', registration.scope);
+
+                    // 监听 SW 更新 —— 有新版本时提示用户刷新
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (!newWorker) return;
+                        console.log('[PWA] 🔄 发现新版本 SW，正在安装…');
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // 新 SW 已就绪但旧 SW 还在控制页面 → 提示刷新
+                                console.log('[PWA] 💡 新版本已就绪，刷新页面后生效');
+                                // 静默更新，不打扰用户（助眠场景不宜弹窗）
+                            }
+                        });
+                    });
+                })
+                .catch((err) => {
+                    console.warn('[PWA] ⚠ SW 注册失败:', err.message);
+                    // 常见失败原因：
+                    // - 非 HTTPS 环境（localhost 除外）
+                    // - 浏览器隐私模式限制
+                    // - sw.js 语法错误
+                });
+
+            // === PWA: 监听 SW 消息（缓存统计、更新通知等） ===
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'CACHE_STATS') {
+                    console.log(
+                        `[PWA] 📊 音频缓存: ${event.data.audioCount} 首, ` +
+                        `${event.data.audioSizeMB}MB / ${event.data.maxSizeMB}MB 上限`
+                    );
+                }
+            });
+        });
+
+        // === PWA: 接收来自 SW 的控制器变更通知 ===
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            console.log('[PWA] 🔄 SW 控制器已切换（新版本接管）');
+        });
+    })();
     </script>
 </body>
 </html>
