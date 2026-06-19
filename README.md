@@ -2,9 +2,9 @@
 
 > 卸下所有，将睡眠交还给声音。
 
-**MyMelatonin** 是一个沉浸式助眠白噪音 Web 应用。内置 ASMR 与自然噪音双频道，支持播放进度控制、睡眠定时器、全屏沉浸模式。纯前端实现，开箱即用。
+**MyMelatonin** 是一个沉浸式助眠白噪音 PWA 应用。内置 ASMR 与自然噪音双频道，支持播放进度控制、睡眠定时器、全屏沉浸模式、PWA 离线播放，以及站长内容管理后台。纯前端实现，开箱即用。
 
-🌐 **在线体验**：[GitHub Pages 占位 — 部署后替换此链接](https://your-username.github.io/MyMelatonin)
+🌐 **在线体验**：[https://melatonindemo.netlify.app](https://melatonindemo.netlify.app)
 
 ---
 
@@ -19,23 +19,23 @@
 | ⌨️ **键盘快捷键** | `Space` 播放/暂停 · `F` 全屏 · `←→` 快进快退 · `↑↓` 音量 · `ESC` 返回 |
 | 💾 **偏好记忆** | localStorage 自动记录音量、语言、播放模式、循环设置 |
 | 📱 **全响应式** | 5 断点覆盖手机 / 平板 / 桌面 / 横屏，毛玻璃控制栏 |
-| 🌐 **离线友好** | 断网检测与提示 |
+| 📲 **PWA 支持** | 可安装到桌面/主屏幕，Service Worker 缓存音频，支持离线播放 |
+| 🔐 **站长后台** | 前端密码验证，音频元数据增删改查（CRUD），JSON 配置导出 |
+| 🌐 **离线友好** | 断网检测与提示，内置精简兜底数据 |
 
 ---
 
 ## 🖼️ 界面预览
-
-> *以下为截图占位描述，请替换为实际截图。*
 
 | 首页 | 列表页 | 播放页 |
 |:---:|:---:|:---:|
 | ![首页](./screenshots/home.png) | ![列表](./screenshots/list.png) | ![播放](./screenshots/player.png) |
 | *暗色主题入口，双卡片选择频道* | *曲目列表，支持顺序/随机模式* | *3 层呼吸光晕 + 粒子背景* |
 
-| 睡眠定时器 | 移动端适配 |
-|:---:|:---:|
-| ![定时器](./screenshots/timer.png) | ![移动端](./screenshots/mobile.png) |
-| *4 档定时，倒计时 + 淡出* | *全响应式，手机体验完整* |
+| 睡眠定时器 | 管理后台 | 移动端适配 |
+|:---:|:---:|:---:|
+| ![定时器](./screenshots/timer.png) | ![管理后台](./screenshots/admin-panel.png) | ![移动端](./screenshots/mobile.png) |
+| *4 档定时，倒计时 + 淡出* | *音频元数据 CRUD + JSON 导出* | *全响应式，手机体验完整* |
 
 ---
 
@@ -45,7 +45,9 @@
 - **CSS3** — Custom Properties 主题系统 · `backdrop-filter` 毛玻璃 · CSS Animations · Grid/Flexbox 布局
 - **Canvas API** — 60 粒子实时渲染，页面不可见时自动暂停
 - **HTML5 Audio API** — 播放控制 · 缓冲检测 · 错误恢复
-- **localStorage** — 用户偏好持久化
+- **Service Worker + Cache API** — PWA 离线缓存，音频按需缓存，50MB 上限自动清理
+- **JSON 配置驱动** — 音频数据外置到 `tracks.json`，解耦数据层与视图层，支持离线兜底
+- **localStorage / sessionStorage** — 用户偏好持久化 + 站长登录状态管理
 - **Fullscreen API** — 一键沉浸模式
 - **Network Information** — 在线/离线状态监听
 
@@ -62,7 +64,7 @@
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/your-username/MyMelatonin.git
+git clone https://github.com/CRSTNA426/MyMelatonin.git
 cd MyMelatonin
 
 # 2. 启动本地服务器（任选其一）
@@ -87,6 +89,10 @@ npx serve .
 ```
 MyMelatonin/
 ├── index.html              # 主应用（HTML + CSS + JS 单文件）
+├── manifest.json           # PWA 配置（应用名称、图标、主题色）
+├── sw.js                   # Service Worker（缓存策略 + 音频离线播放）
+├── tracks.json             # 音频数据配置（支持动态加载与离线兜底）
+├── icon.svg                # PWA 应用图标
 ├── README.md               # 项目文档
 ├── .gitignore
 ├── screenshots/            # 截图（待补充）
@@ -94,6 +100,7 @@ MyMelatonin/
 │   ├── list.png
 │   ├── player.png
 │   ├── timer.png
+│   ├── admin-panel.png
 │   └── mobile.png
 ├── ASMR/                   # ASMR 音频（9 首）
 │   ├── norm_nighttime_skincare_asmr.mp3
@@ -143,21 +150,25 @@ MyMelatonin/
 
 ---
 
+## 🔐 站长管理后台
+
+点击导航栏右侧的 🔒 图标，输入密码即可进入管理后台：
+
+- **音频管理**：添加、编辑、删除音频元数据（标题、分类、文件路径）
+- **配置导出**：一键生成 `tracks.json`，复制后替换项目文件即可部署更新
+- **密码验证**：前端 sessionStorage 状态管理，关闭页面后需重新登录
+
+> 注意：管理后台操作仅修改内存数据，更新线上需手动替换 `tracks.json` 并重新部署。
+
+---
+
 ## 🎯 设计理念
 
 - **沉浸优先** — 暗色基调 + 环境光渐变 + 粒子漂浮，模拟深夜放松氛围
 - **触感反馈** — 所有交互均有 hover/active 过渡，毛玻璃底栏符合 iOS 设计语言
 - **渐进增强** — 键盘快捷键和全屏模式对高级用户可用，但不强制依赖
+- **离线优先** — PWA 缓存策略确保弱网/无网环境下仍可播放已缓存音频
 - **尊重隐私** — 纯前端，无埋点、无后端、无 Cookie
-
----
-
-## 📝 待办事项
-
-- [ ] 截取实际界面截图替换 `screenshots/` 占位
-- [ ] 部署到 GitHub Pages / Vercel，更新在线链接
-- [ ] （可选）音频混音功能：同时播放多个声音
-- [ ] （可选）添加 PWA manifest 和 Service Worker 缓存
 
 ---
 
